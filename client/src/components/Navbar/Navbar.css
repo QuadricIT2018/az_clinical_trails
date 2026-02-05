@@ -1,0 +1,164 @@
+.navbar {
+  position: relative;
+  height: var(--navbar-height);
+  background-color: var(--navbar-color);
+  z-index: 1000;
+}
+
+/* Removed scrolled state since navbar is no longer fixed */
+
+.navbar__container {
+  max-width: var(--max-width);
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo */
+.navbar__logo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  color: var(--white);
+  font-family: 'Segoe UI', sans-serif;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-lg);
+  transition: color 0.3s ease;
+}
+
+.navbar__logo:hover {
+  color: var(--navbar-link-hover);
+}
+
+.navbar__logo-icon {
+  font-size: 24px;
+}
+
+.navbar__logo-text {
+  letter-spacing: 0.5px;
+}
+
+/* Menu */
+.navbar__menu {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.navbar__item {
+  list-style: none;
+}
+
+.navbar__link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  color: var(--navbar-link-color);
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+  transition: color 0.3s ease;
+}
+
+.navbar__link:hover {
+  color: var(--navbar-link-hover);
+}
+
+/* Active state maintains default color - only hover changes color */
+.navbar__link--active {
+  color: var(--navbar-link-color);
+}
+
+.navbar__link-icon {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+/* Mobile Toggle */
+.navbar__mobile-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+}
+
+.navbar__mobile-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: var(--white);
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+.navbar__mobile-toggle.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.navbar__mobile-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.navbar__mobile-toggle.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .navbar__mobile-toggle {
+    display: flex;
+  }
+
+  .navbar__menu {
+    position: absolute;
+    top: var(--navbar-height);
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background-color: var(--navbar-color);
+    padding: var(--spacing-md);
+    gap: var(--spacing-xs);
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform var(--transition-normal), opacity var(--transition-normal), visibility var(--transition-normal);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .navbar__menu--open {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .navbar__link {
+    width: 100%;
+    justify-content: center;
+    padding: var(--spacing-md);
+  }
+
+  .navbar__logo-text {
+    font-size: var(--font-size-base);
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar__logo-text {
+    font-size: var(--font-size-sm);
+  }
+
+  .navbar__container {
+    padding: 0 var(--spacing-md);
+  }
+}

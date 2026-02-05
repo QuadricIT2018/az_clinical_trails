@@ -1,0 +1,166 @@
+/* Trial Map Styles */
+
+.trial-map {
+  width: 100%;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background-color: white;
+}
+
+.trial-map__container {
+  width: 100%;
+  height: 450px;
+  z-index: 1;
+}
+
+/* Loading State */
+.trial-map__loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 450px;
+  background-color: #E9ECEF;
+  border-radius: var(--radius-lg);
+}
+
+.trial-map__spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #F8F9FA;
+  border-top-color: #8A0051;
+  border-radius: 50%;
+  animation: mapSpin 1s linear infinite;
+  margin-bottom: var(--spacing-md);
+}
+
+@keyframes mapSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.trial-map__loading p {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 16px;
+  color: #6c757d;
+}
+
+/* Map Info Bar */
+.trial-map__info {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: #F8F9FA;
+  border-top: 1px solid #E9ECEF;
+}
+
+.trial-map__count {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 13px;
+  color: #6c757d;
+}
+
+/* Popup Styles */
+.trial-map__popup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 180px;
+}
+
+.trial-map__popup-facility {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #8A0051;
+  margin-bottom: 4px;
+}
+
+.trial-map__popup-address {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 13px;
+  color: #212529;
+}
+
+.trial-map__popup-country {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 13px;
+  color: #6c757d;
+}
+
+.trial-map__popup-status {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 4px;
+  text-transform: uppercase;
+}
+
+.trial-map__popup-status--recruiting {
+  background-color: #28A745;
+  color: white;
+}
+
+.trial-map__popup-status--active-not-recruiting {
+  background-color: #FFA500;
+  color: white;
+}
+
+.trial-map__popup-status--completed {
+  background-color: #007BFF;
+  color: white;
+}
+
+/* Leaflet Control Overrides */
+.trial-map .leaflet-control-zoom {
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.trial-map .leaflet-control-zoom a {
+  background-color: white;
+  color: #8A0051;
+  font-weight: 600;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+}
+
+.trial-map .leaflet-control-zoom a:hover {
+  background-color: #F8F9FA;
+  color: #6a0042;
+}
+
+.trial-map .leaflet-control-attribution {
+  font-size: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.trial-map .leaflet-control-attribution a {
+  color: #8A0051;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .trial-map__container {
+    height: 350px;
+  }
+
+  .trial-map__loading {
+    height: 350px;
+  }
+}
+
+@media (max-width: 576px) {
+  .trial-map__container {
+    height: 300px;
+  }
+
+  .trial-map__loading {
+    height: 300px;
+  }
+}

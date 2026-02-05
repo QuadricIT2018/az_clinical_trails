@@ -1,0 +1,17 @@
+{
+  "name": "az-clinical-trials",
+  "version": "1.0.0",
+  "description": "AstraZeneca Clinical Trials Website",
+  "scripts": {
+    "install-all": "npm install && cd server && npm install && cd ../client && npm install",
+    "server": "cd server && npm start",
+    "client": "cd client && npm start",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "keywords": ["clinical-trials", "astrazeneca", "healthcare"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

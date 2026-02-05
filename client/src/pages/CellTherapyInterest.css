@@ -1,0 +1,487 @@
+/* Cell Therapy Interest Form Styles */
+
+.cell-therapy-interest {
+  min-height: calc(100vh - var(--navbar-height));
+  background-color: #F8F9FA;
+  padding: var(--spacing-2xl) 0;
+}
+
+/* Page Header */
+.cell-therapy-interest__header {
+  text-align: center;
+  margin-bottom: var(--spacing-2xl);
+}
+
+.cell-therapy-interest__title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+  color: #212529;
+  margin-bottom: var(--spacing-sm);
+}
+
+.cell-therapy-interest__title-icon {
+  font-size: 36px;
+  color: #8A0051;
+}
+
+.cell-therapy-interest__subtitle {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: #6c757d;
+}
+
+/* Form Container */
+.cell-therapy-interest__form-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  padding: var(--spacing-2xl);
+}
+
+/* Form Sections */
+.cell-therapy-interest__section {
+  margin-bottom: var(--spacing-2xl);
+}
+
+.cell-therapy-interest__section:last-of-type {
+  margin-bottom: var(--spacing-xl);
+}
+
+.cell-therapy-interest__section-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.cell-therapy-interest__section-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 18px;
+}
+
+.cell-therapy-interest__section-icon--info {
+  background-color: rgba(138, 0, 81, 0.1);
+  color: #8A0051;
+}
+
+.cell-therapy-interest__section-icon--shield {
+  background-color: rgba(138, 0, 81, 0.1);
+  color: #8A0051;
+}
+
+.cell-therapy-interest__section-title {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #8A0051;
+}
+
+.cell-therapy-interest__section-description {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #6c757d;
+  margin-bottom: var(--spacing-xl);
+  line-height: 1.6;
+}
+
+/* Form Rows */
+.cell-therapy-interest__row {
+  margin-bottom: var(--spacing-lg);
+}
+
+.cell-therapy-interest__row--two-cols {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-lg);
+}
+
+.cell-therapy-interest__row--three-cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+}
+
+/* Form Fields */
+.cell-therapy-interest__field {
+  display: flex;
+  flex-direction: column;
+}
+
+.cell-therapy-interest__label {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #212529;
+  margin-bottom: var(--spacing-xs);
+}
+
+.cell-therapy-interest__input,
+.cell-therapy-interest__textarea {
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: white;
+  border: 1px solid #dee2e6;
+  border-radius: var(--radius-md);
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 15px;
+  color: #212529;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.cell-therapy-interest__input:focus,
+.cell-therapy-interest__textarea:focus {
+  outline: none;
+  border-color: #8A0051;
+  box-shadow: 0 0 0 3px rgba(138, 0, 81, 0.1);
+}
+
+.cell-therapy-interest__input--error,
+.cell-therapy-interest__textarea--error {
+  border-color: #dc3545;
+}
+
+.cell-therapy-interest__input--error:focus,
+.cell-therapy-interest__textarea--error:focus {
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+}
+
+.cell-therapy-interest__textarea {
+  resize: vertical;
+  min-height: 150px;
+}
+
+.cell-therapy-interest__helper {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #6c757d;
+  margin-top: 4px;
+}
+
+.cell-therapy-interest__error {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #dc3545;
+  margin-top: 4px;
+}
+
+/* Privacy List */
+.cell-therapy-interest__privacy-list {
+  list-style: disc;
+  padding-left: var(--spacing-xl);
+  margin: 0;
+}
+
+.cell-therapy-interest__privacy-list li {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #6c757d;
+  line-height: 1.8;
+  margin-bottom: var(--spacing-xs);
+}
+
+/* Submit Error */
+.cell-therapy-interest__submit-error {
+  background-color: rgba(220, 53, 69, 0.1);
+  border: 1px solid #dc3545;
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  color: #dc3545;
+  text-align: center;
+}
+
+/* Form Buttons */
+.cell-therapy-interest__buttons {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-2xl);
+}
+
+.cell-therapy-interest__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--spacing-xl);
+  border-radius: var(--radius-md);
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  flex: 1;
+}
+
+.cell-therapy-interest__btn--primary {
+  background-color: #8A0051;
+  color: white;
+  border: 2px solid #8A0051;
+}
+
+.cell-therapy-interest__btn--primary:hover:not(:disabled) {
+  background-color: #6a0042;
+  border-color: #6a0042;
+}
+
+.cell-therapy-interest__btn--primary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.cell-therapy-interest__btn--secondary {
+  background-color: white;
+  color: #6c757d;
+  border: 2px solid #6c757d;
+}
+
+.cell-therapy-interest__btn--secondary:hover {
+  background-color: #F8F9FA;
+  color: #495057;
+  border-color: #495057;
+}
+
+.cell-therapy-interest__btn-spinner {
+  animation: spinBtn 1s linear infinite;
+}
+
+@keyframes spinBtn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Info Boxes */
+.cell-therapy-interest__info-boxes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-lg);
+}
+
+.cell-therapy-interest__info-box {
+  background-color: #F8F9FA;
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  text-align: center;
+}
+
+.cell-therapy-interest__info-box-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: rgba(138, 0, 81, 0.1);
+  color: #8A0051;
+  font-size: 20px;
+  margin-bottom: var(--spacing-md);
+}
+
+.cell-therapy-interest__info-box-title {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #8A0051;
+  margin-bottom: var(--spacing-sm);
+}
+
+.cell-therapy-interest__info-box-text {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #6c757d;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.cell-therapy-interest__info-box-text strong {
+  font-weight: 600;
+}
+
+.cell-therapy-interest__info-box-link {
+  color: #007BFF;
+  text-decoration: none;
+}
+
+.cell-therapy-interest__info-box-link:hover {
+  text-decoration: underline;
+}
+
+/* Success State */
+.cell-therapy-interest__success {
+  background-color: white;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  padding: var(--spacing-3xl);
+  text-align: center;
+  max-width: 600px;
+  margin: var(--spacing-3xl) auto;
+}
+
+.cell-therapy-interest__success-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: rgba(40, 167, 69, 0.1);
+  color: #28A745;
+  font-size: 40px;
+  margin-bottom: var(--spacing-lg);
+}
+
+.cell-therapy-interest__success-title {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: #28A745;
+  margin-bottom: var(--spacing-md);
+}
+
+.cell-therapy-interest__success-message {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #6c757d;
+  line-height: 1.6;
+  margin-bottom: var(--spacing-xl);
+}
+
+.cell-therapy-interest__success-message strong {
+  font-weight: 600;
+  color: #212529;
+}
+
+.cell-therapy-interest__success-buttons {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-md);
+}
+
+.cell-therapy-interest__success-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-sm) var(--spacing-xl);
+  border-radius: var(--radius-md);
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.cell-therapy-interest__success-btn--primary {
+  background-color: #8A0051;
+  color: white;
+}
+
+.cell-therapy-interest__success-btn--primary:hover {
+  background-color: #6a0042;
+}
+
+.cell-therapy-interest__success-btn--secondary {
+  background-color: white;
+  color: #6c757d;
+  border: 1px solid #6c757d;
+}
+
+.cell-therapy-interest__success-btn--secondary:hover {
+  background-color: #F8F9FA;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .cell-therapy-interest__row--three-cols {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cell-therapy-interest__row--three-cols .cell-therapy-interest__field:last-child {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 768px) {
+  .cell-therapy-interest {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .cell-therapy-interest__form-container {
+    padding: var(--spacing-xl);
+  }
+
+  .cell-therapy-interest__title {
+    font-size: 26px;
+  }
+
+  .cell-therapy-interest__subtitle {
+    font-size: 16px;
+  }
+
+  .cell-therapy-interest__row--two-cols,
+  .cell-therapy-interest__row--three-cols {
+    grid-template-columns: 1fr;
+  }
+
+  .cell-therapy-interest__row--three-cols .cell-therapy-interest__field:last-child {
+    grid-column: span 1;
+  }
+
+  .cell-therapy-interest__buttons {
+    flex-direction: column;
+  }
+
+  .cell-therapy-interest__info-boxes {
+    grid-template-columns: 1fr;
+  }
+
+  .cell-therapy-interest__success-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .cell-therapy-interest__form-container {
+    padding: var(--spacing-lg);
+  }
+
+  .cell-therapy-interest__title {
+    font-size: 22px;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .cell-therapy-interest__title-icon {
+    font-size: 32px;
+  }
+
+  .cell-therapy-interest__section-title {
+    font-size: 18px;
+  }
+
+  .cell-therapy-interest__btn {
+    font-size: 16px;
+    padding: var(--spacing-sm) var(--spacing-lg);
+  }
+}
