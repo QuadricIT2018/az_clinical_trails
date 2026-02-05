@@ -1,6 +1,5 @@
 const express = require('express');
 const Registration = require('../models/Registration');
-const { protect } = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -70,11 +69,11 @@ router.post('/', async (req, res) => {
 
 // @route   GET /api/registrations
 // @desc    Get all registrations
-// @access  Private (Admin only)
-router.get('/', protect, async (req, res) => {
+// @access  Public (for admin dashboard with localStorage auth)
+router.get('/', async (req, res) => {
   try {
     const registrations = await Registration.find().sort({ createdAt: -1 });
-    res.json(registrations);
+    res.json({ data: registrations });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: error.message });
@@ -83,14 +82,14 @@ router.get('/', protect, async (req, res) => {
 
 // @route   GET /api/registrations/:id
 // @desc    Get a single registration
-// @access  Private (Admin only)
-router.get('/:id', protect, async (req, res) => {
+// @access  Public (for admin dashboard)
+router.get('/:id', async (req, res) => {
   try {
     const registration = await Registration.findById(req.params.id);
     if (!registration) {
       return res.status(404).json({ message: 'Registration not found' });
     }
-    res.json(registration);
+    res.json({ data: registration });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: error.message });
@@ -99,19 +98,23 @@ router.get('/:id', protect, async (req, res) => {
 
 // @route   PUT /api/registrations/:id
 // @desc    Update registration status
-// @access  Private (Admin only)
-router.put('/:id', protect, async (req, res) => {
+// @access  Public (for admin dashboard)
+router.put('/:id', async (req, res) => {
   try {
-    const { status } = req.body;
+    const { status, emailSent } = req.body;
+    const updateData = {};
+    if (status) updateData.status = status;
+    if (emailSent !== undefined) updateData.emailSent = emailSent;
+
     const registration = await Registration.findByIdAndUpdate(
       req.params.id,
-      { status },
+      updateData,
       { new: true }
     );
     if (!registration) {
       return res.status(404).json({ message: 'Registration not found' });
     }
-    res.json(registration);
+    res.json({ data: registration });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: error.message });
@@ -120,8 +123,8 @@ router.put('/:id', protect, async (req, res) => {
 
 // @route   DELETE /api/registrations/:id
 // @desc    Delete a registration
-// @access  Private (Admin only)
-router.delete('/:id', protect, async (req, res) => {
+// @access  Public (for admin dashboard)
+router.delete('/:id', async (req, res) => {
   try {
     const registration = await Registration.findByIdAndDelete(req.params.id);
     if (!registration) {

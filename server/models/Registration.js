@@ -57,6 +57,14 @@ const registrationSchema = new mongoose.Schema({
     type: String,
     enum: ['pending', 'reviewed', 'approved', 'rejected'],
     default: 'pending'
+  },
+  emailSent: {
+    type: Boolean,
+    default: false
+  },
+  formType: {
+    type: String,
+    default: 'General Interest'
   }
 }, {
   timestamps: true

@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const CellTherapyInterest = require('../models/CellTherapyInterest');
-const auth = require('../middleware/auth');
 
 // @route   POST /api/cell-therapy-interest
 // @desc    Submit cell therapy interest form
@@ -73,11 +72,11 @@ router.post('/', async (req, res) => {
 });
 
 // @route   GET /api/cell-therapy-interest
-// @desc    Get all cell therapy interest submissions (admin only)
-// @access  Private
-router.get('/', auth, async (req, res) => {
+// @desc    Get all cell therapy interest submissions
+// @access  Public (for admin dashboard with localStorage auth)
+router.get('/', async (req, res) => {
   try {
-    const { status, trialNctId, page = 1, limit = 20 } = req.query;
+    const { status, trialNctId, page = 1, limit = 100 } = req.query;
 
     // Build filter
     const filter = {};
@@ -113,9 +112,9 @@ router.get('/', auth, async (req, res) => {
 });
 
 // @route   GET /api/cell-therapy-interest/:id
-// @desc    Get single cell therapy interest submission (admin only)
-// @access  Private
-router.get('/:id', auth, async (req, res) => {
+// @desc    Get single cell therapy interest submission
+// @access  Public (for admin dashboard)
+router.get('/:id', async (req, res) => {
   try {
     const submission = await CellTherapyInterest.findById(req.params.id);
 
@@ -140,15 +139,16 @@ router.get('/:id', auth, async (req, res) => {
 });
 
 // @route   PATCH /api/cell-therapy-interest/:id
-// @desc    Update cell therapy interest submission status (admin only)
-// @access  Private
-router.patch('/:id', auth, async (req, res) => {
+// @desc    Update cell therapy interest submission status
+// @access  Public (for admin dashboard)
+router.patch('/:id', async (req, res) => {
   try {
-    const { status, notes } = req.body;
+    const { status, notes, emailSent } = req.body;
 
     const updateData = {};
     if (status) updateData.status = status;
     if (notes !== undefined) updateData.notes = notes;
+    if (emailSent !== undefined) updateData.emailSent = emailSent;
 
     const submission = await CellTherapyInterest.findByIdAndUpdate(
       req.params.id,
@@ -178,9 +178,9 @@ router.patch('/:id', auth, async (req, res) => {
 });
 
 // @route   DELETE /api/cell-therapy-interest/:id
-// @desc    Delete cell therapy interest submission (admin only)
-// @access  Private
-router.delete('/:id', auth, async (req, res) => {
+// @desc    Delete cell therapy interest submission
+// @access  Public (for admin dashboard)
+router.delete('/:id', async (req, res) => {
   try {
     const submission = await CellTherapyInterest.findByIdAndDelete(req.params.id);
 

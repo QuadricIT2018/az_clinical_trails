@@ -5,7 +5,8 @@ import {
   FaArrowLeft,
   FaExclamationTriangle,
   FaTimes,
-  FaInfoCircle
+  FaInfoCircle,
+  FaCheckCircle
 } from 'react-icons/fa';
 import './AdminLogin.css';
 
@@ -17,6 +18,7 @@ const AdminLogin = () => {
   });
   const [error, setError] = useState(null);
   const [showTopAlert, setShowTopAlert] = useState(false);
+  const [showLogoutSuccess, setShowLogoutSuccess] = useState(false);
 
   // Check if already logged in
   useEffect(() => {
@@ -25,6 +27,21 @@ const AdminLogin = () => {
       navigate('/admin/dashboard');
     }
   }, [navigate]);
+
+  // Check for logout success message
+  useEffect(() => {
+    const logoutSuccess = localStorage.getItem('logoutSuccess');
+    if (logoutSuccess === 'true') {
+      setShowLogoutSuccess(true);
+      localStorage.removeItem('logoutSuccess');
+
+      // Auto-dismiss after 5 seconds
+      const timer = setTimeout(() => {
+        setShowLogoutSuccess(false);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   // Auto-dismiss top alert after 5 seconds
   useEffect(() => {
@@ -76,11 +93,15 @@ const AdminLogin = () => {
     }
   };
 
+  const dismissLogoutSuccess = () => {
+    setShowLogoutSuccess(false);
+  };
+
   return (
     <div className="admin-login">
-      {/* Top Alert */}
+      {/* Top Alert - Error */}
       {showTopAlert && (
-        <div className="admin-login__top-alert">
+        <div className="admin-login__top-alert admin-login__top-alert--error">
           <FaExclamationTriangle className="admin-login__top-alert-icon" />
           <span>Invalid username or password</span>
           <button
@@ -92,18 +113,42 @@ const AdminLogin = () => {
         </div>
       )}
 
+      {/* Top Alert - Logout Success */}
+      {showLogoutSuccess && (
+        <div className="admin-login__top-alert admin-login__top-alert--success">
+          <FaCheckCircle className="admin-login__top-alert-icon admin-login__top-alert-icon--success" />
+          <span>You have been logged out</span>
+          <button
+            onClick={dismissLogoutSuccess}
+            className="admin-login__top-alert-close admin-login__top-alert-close--success"
+          >
+            <FaTimes />
+          </button>
+        </div>
+      )}
+
       <div className="admin-login__container">
         {/* Login Card */}
         <div className="admin-login__card">
           {/* Card Header */}
           <div className="admin-login__card-header">
-            <FaShieldAlt className="admin-login__card-header-icon" />
-            <h1 className="admin-login__card-title">Admin Login</h1>
+            <div className="admin-login__card-title-row">
+              <FaShieldAlt className="admin-login__card-header-icon" />
+              <h1 className="admin-login__card-title">Admin Login</h1>
+            </div>
             <p className="admin-login__card-subtitle">Clinical Trials Management Portal</p>
           </div>
 
           {/* Card Body */}
           <div className="admin-login__card-body">
+            {/* Inline Logout Success Message */}
+            {showLogoutSuccess && (
+              <div className="admin-login__inline-success">
+                <FaCheckCircle />
+                <span>You have been logged out</span>
+              </div>
+            )}
+
             {/* Inline Error */}
             {error && (
               <div className="admin-login__inline-error">

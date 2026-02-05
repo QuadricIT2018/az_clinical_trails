@@ -6,7 +6,8 @@
     "install-all": "npm install && cd server && npm install && cd ../client && npm install",
     "server": "cd server && npm start",
     "client": "cd client && npm start",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "keywords": ["clinical-trials", "astrazeneca", "healthcare"],
   "author": "",

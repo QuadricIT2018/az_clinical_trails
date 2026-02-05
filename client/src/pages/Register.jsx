@@ -150,7 +150,7 @@ const Register = () => {
               <FaCheckCircle />
               <div>
                 <strong>Registration Successful!</strong>
-                <p>Thank you for your interest. Our team will review your application and contact you soon.</p>
+                <p>Thank you for your interest in our clinical trials. We will contact you soon with more information.</p>
               </div>
             </div>
           )}

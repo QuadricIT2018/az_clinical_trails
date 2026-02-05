@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+// Use relative path for proxy support in development
+// In production, use the full URL from environment variable
+const API_URL = process.env.REACT_APP_API_URL || '/api';
 
 // Create axios instance
 const api = axios.create({
@@ -43,13 +45,22 @@ export const authAPI = {
   verify: () => api.get('/auth/verify')
 };
 
-// Registrations API
+// Registrations API (General Interest)
 export const registrationsAPI = {
   create: (data) => api.post('/registrations', data),
   getAll: () => api.get('/registrations'),
   getOne: (id) => api.get(`/registrations/${id}`),
   update: (id, data) => api.put(`/registrations/${id}`, data),
   delete: (id) => api.delete(`/registrations/${id}`)
+};
+
+// Cell Therapy Interest API
+export const cellTherapyAPI = {
+  create: (data) => api.post('/cell-therapy-interest', data),
+  getAll: (params) => api.get('/cell-therapy-interest', { params }),
+  getOne: (id) => api.get(`/cell-therapy-interest/${id}`),
+  update: (id, data) => api.patch(`/cell-therapy-interest/${id}`, data),
+  delete: (id) => api.delete(`/cell-therapy-interest/${id}`)
 };
 
 export default api;

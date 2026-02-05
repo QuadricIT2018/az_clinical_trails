@@ -18,11 +18,16 @@ import {
   FaSquare,
   FaEye,
   FaCheck,
-  FaCircle
+  FaCircle,
+  FaUser,
+  FaInfoCircle
 } from 'react-icons/fa';
 import axios from 'axios';
 import Footer from '../components/Footer/Footer';
 import './AdminDashboard.css';
+
+// Use relative path for proxy support in development
+const API_BASE_URL = '/api';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -30,6 +35,8 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedRows, setSelectedRows] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedParticipant, setSelectedParticipant] = useState(null);
 
   // Filter states
   const [filters, setFilters] = useState({
@@ -68,8 +75,8 @@ const AdminDashboard = () => {
     try {
       // Fetch both types of submissions
       const [registrationsRes, cellTherapyRes] = await Promise.all([
-        axios.get('/api/registrations').catch(() => ({ data: { data: [] } })),
-        axios.get('/api/cell-therapy-interest').catch(() => ({ data: { data: [] } }))
+        axios.get(`${API_BASE_URL}/registrations`).catch(() => ({ data: { data: [] } })),
+        axios.get(`${API_BASE_URL}/cell-therapy-interest`).catch(() => ({ data: { data: [] } }))
       ]);
 
       const generalSubmissions = (registrationsRes.data.data || registrationsRes.data || []).map(item => ({
@@ -116,9 +123,17 @@ const AdminDashboard = () => {
   };
 
   const handleLogout = () => {
+    // Clear all authentication data
     localStorage.removeItem('adminLoggedIn');
     localStorage.removeItem('adminUsername');
-    navigate('/');
+    localStorage.removeItem('adminToken');
+    sessionStorage.clear();
+
+    // Set logout success flag for the login page to display
+    localStorage.setItem('logoutSuccess', 'true');
+
+    // Navigate to login page
+    navigate('/admin/login');
   };
 
   const handleFilterChange = (name, value) => {
@@ -159,8 +174,13 @@ const AdminDashboard = () => {
   };
 
   const handleViewDetails = (submission) => {
-    // Placeholder for viewing details
-    alert(`Viewing details for: ${submission.fullName}\nEmail: ${submission.email}\nDiagnosis: ${submission.currentDiagnosis || 'N/A'}`);
+    setSelectedParticipant(submission);
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setSelectedParticipant(null);
   };
 
   // Filter submissions
@@ -456,6 +476,37 @@ const AdminDashboard = () => {
           </div>
         </div>
       </div>
+
+      {/* Participant Details Modal */}
+      {showModal && (
+        <div className="admin-dashboard__modal-overlay" onClick={closeModal}>
+          <div className="admin-dashboard__modal" onClick={(e) => e.stopPropagation()}>
+            <div className="admin-dashboard__modal-header">
+              <FaUser className="admin-dashboard__modal-header-icon" />
+              <h2 className="admin-dashboard__modal-title">Participant Details</h2>
+              <button className="admin-dashboard__modal-close" onClick={closeModal}>
+                <FaTimes />
+              </button>
+            </div>
+            <div className="admin-dashboard__modal-body">
+              <div className="admin-dashboard__modal-placeholder">
+                <div className="admin-dashboard__modal-info-icon">
+                  <FaInfoCircle />
+                </div>
+                <p className="admin-dashboard__modal-placeholder-text">
+                  Detailed view functionality would be implemented here to show complete participant information, health details, and interaction history.
+                </p>
+              </div>
+            </div>
+            <div className="admin-dashboard__modal-footer">
+              <button className="admin-dashboard__modal-close-btn" onClick={closeModal}>
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <Footer />
     </>
   );

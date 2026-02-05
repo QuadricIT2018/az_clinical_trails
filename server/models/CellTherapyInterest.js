@@ -73,6 +73,10 @@ const cellTherapyInterestSchema = new mongoose.Schema({
   notes: {
     type: String,
     trim: true
+  },
+  emailSent: {
+    type: Boolean,
+    default: false
   }
 }, {
   timestamps: true
