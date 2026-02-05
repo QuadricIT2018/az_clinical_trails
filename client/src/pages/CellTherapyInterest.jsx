@@ -9,7 +9,7 @@ import {
   FaArrowLeft,
   FaSpinner
 } from 'react-icons/fa';
-import axios from 'axios';
+import { cellTherapyAPI } from '../services/api';
 import Footer from '../components/Footer/Footer';
 import './CellTherapyInterest.css';
 
@@ -120,7 +120,7 @@ const CellTherapyInterest = () => {
         submittedAt: new Date().toISOString()
       };
 
-      await axios.post('/api/cell-therapy-interest', submissionData);
+      await cellTherapyAPI.create(submissionData);
 
       setSubmitSuccess(true);
     } catch (err) {

@@ -791,9 +791,67 @@
   background-color: #5a6268;
 }
 
+/* Modal Details */
+.admin-dashboard__modal-details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.admin-dashboard__modal-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-sm) 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.admin-dashboard__modal-row:last-child {
+  border-bottom: none;
+}
+
+.admin-dashboard__modal-row--full {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-xs);
+}
+
+.admin-dashboard__modal-label {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #495057;
+  min-width: 120px;
+}
+
+.admin-dashboard__modal-value {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #212529;
+  word-break: break-word;
+}
+
+.admin-dashboard__modal-row--full .admin-dashboard__modal-value {
+  background-color: #f8f9fa;
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  width: 100%;
+}
+
 @media (max-width: 576px) {
   .admin-dashboard__modal {
     max-width: 100%;
     margin: var(--spacing-md);
+  }
+
+  .admin-dashboard__modal-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+  }
+
+  .admin-dashboard__modal-label {
+    min-width: auto;
   }
 }

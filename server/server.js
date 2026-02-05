@@ -12,10 +12,27 @@ connectDB();
 const app = express();
 
 // Middleware
-const cors = require('cors');
+// CORS configuration - allow requests from Vercel frontend and localhost
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:5000',
+  'https://az-clinical-trails.vercel.app',
+  'https://az-clinical-trails-git-master.vercel.app',
+  process.env.FRONTEND_URL
+].filter(Boolean);
 
 app.use(cors({
-  origin: ['https://your-frontend.vercel.app', 'http://localhost:3000'],
+  origin: function(origin, callback) {
+    // Allow requests with no origin (mobile apps, curl, etc.)
+    if (!origin) return callback(null, true);
+
+    // Check if origin is in allowed list or matches Vercel pattern
+    if (allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
+      return callback(null, true);
+    }
+
+    callback(null, true); // Allow all origins for now to debug
+  },
   credentials: true
 }));
 app.use(express.json());

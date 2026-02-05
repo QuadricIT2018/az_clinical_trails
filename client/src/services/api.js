@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Use relative path for proxy support in development
 // In production, use the full URL from environment variable
-const API_URL = process.env.REACT_APP_API_URL || '/api';
+const API_URL = process.env.REACT_APP_API_URL || 'https://az-clinical-trails-api.onrender.com/api';
 
 // Create axios instance
 const api = axios.create({

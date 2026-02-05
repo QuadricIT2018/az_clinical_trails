@@ -19,15 +19,11 @@ import {
   FaEye,
   FaCheck,
   FaCircle,
-  FaUser,
-  FaInfoCircle
+  FaUser
 } from 'react-icons/fa';
-import axios from 'axios';
 import Footer from '../components/Footer/Footer';
+import { registrationsAPI, cellTherapyAPI } from '../services/api';
 import './AdminDashboard.css';
-
-// Use relative path for proxy support in development
-const API_BASE_URL = '/api';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -73,30 +69,43 @@ const AdminDashboard = () => {
     setError(null);
 
     try {
-      // Fetch both types of submissions
-      const [registrationsRes, cellTherapyRes] = await Promise.all([
-        axios.get(`${API_BASE_URL}/registrations`).catch(() => ({ data: { data: [] } })),
-        axios.get(`${API_BASE_URL}/cell-therapy-interest`).catch(() => ({ data: { data: [] } }))
-      ]);
+      // Fetch registrations (General Interest)
+      let generalSubmissions = [];
+      try {
+        const registrationsRes = await registrationsAPI.getAll();
+        console.log('Registrations response:', registrationsRes.data);
+        const registrationsData = registrationsRes.data.data || registrationsRes.data || [];
+        generalSubmissions = registrationsData.map(item => ({
+          ...item,
+          therapyType: 'General',
+          eligibility: item.status === 'approved' ? 'Eligible' : 'Under Review',
+          emailSent: item.emailSent || false
+        }));
+      } catch (regError) {
+        console.error('Error fetching registrations:', regError);
+      }
 
-      const generalSubmissions = (registrationsRes.data.data || registrationsRes.data || []).map(item => ({
-        ...item,
-        therapyType: 'General',
-        eligibility: item.status === 'approved' ? 'Eligible' : 'Under Review',
-        emailSent: item.emailSent || false
-      }));
-
-      const cellTherapySubmissions = (cellTherapyRes.data.data || cellTherapyRes.data || []).map(item => ({
-        ...item,
-        therapyType: 'Cell Therapy',
-        eligibility: item.status === 'eligible' ? 'Eligible' : 'Under Review',
-        emailSent: item.status === 'contacted' || item.emailSent || false
-      }));
+      // Fetch cell therapy interest
+      let cellTherapySubmissions = [];
+      try {
+        const cellTherapyRes = await cellTherapyAPI.getAll();
+        console.log('Cell therapy response:', cellTherapyRes.data);
+        const cellTherapyData = cellTherapyRes.data.data || cellTherapyRes.data || [];
+        cellTherapySubmissions = cellTherapyData.map(item => ({
+          ...item,
+          therapyType: 'Cell Therapy',
+          eligibility: item.status === 'eligible' ? 'Eligible' : 'Under Review',
+          emailSent: item.status === 'contacted' || item.emailSent || false
+        }));
+      } catch (cellError) {
+        console.error('Error fetching cell therapy:', cellError);
+      }
 
       const allSubmissions = [...generalSubmissions, ...cellTherapySubmissions].sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );
 
+      console.log('All submissions:', allSubmissions);
       setSubmissions(allSubmissions);
 
       // Calculate statistics
@@ -114,9 +123,14 @@ const AdminDashboard = () => {
         generalInterest: general,
         cellTherapy
       });
+
+      // Show error if both fetches failed
+      if (generalSubmissions.length === 0 && cellTherapySubmissions.length === 0) {
+        console.log('No data fetched - please ensure the server is running on port 5000');
+      }
     } catch (err) {
       console.error('Error fetching data:', err);
-      setError('Failed to load submissions');
+      setError('Failed to load submissions. Please ensure the server is running.');
     } finally {
       setLoading(false);
     }
@@ -489,14 +503,64 @@ const AdminDashboard = () => {
               </button>
             </div>
             <div className="admin-dashboard__modal-body">
-              <div className="admin-dashboard__modal-placeholder">
-                <div className="admin-dashboard__modal-info-icon">
-                  <FaInfoCircle />
+              {selectedParticipant && (
+                <div className="admin-dashboard__modal-details">
+                  <div className="admin-dashboard__modal-row">
+                    <span className="admin-dashboard__modal-label">Full Name:</span>
+                    <span className="admin-dashboard__modal-value">{selectedParticipant.fullName}</span>
+                  </div>
+                  <div className="admin-dashboard__modal-row">
+                    <span className="admin-dashboard__modal-label">Email:</span>
+                    <span className="admin-dashboard__modal-value">{selectedParticipant.email}</span>
+                  </div>
+                  <div className="admin-dashboard__modal-row">
+                    <span className="admin-dashboard__modal-label">Phone:</span>
+                    <span className="admin-dashboard__modal-value">{selectedParticipant.mobileNumber || selectedParticipant.phone}</span>
+                  </div>
+                  <div className="admin-dashboard__modal-row">
+                    <span className="admin-dashboard__modal-label">Age:</span>
+                    <span className="admin-dashboard__modal-value">{selectedParticipant.age || 'N/A'}</span>
+                  </div>
+                  <div className="admin-dashboard__modal-row">
+                    <span className="admin-dashboard__modal-label">Zip Code:</span>
+                    <span className="admin-dashboard__modal-value">{selectedParticipant.zipCode || 'N/A'}</span>
+                  </div>
+                  <div className="admin-dashboard__modal-row">
+                    <span className="admin-dashboard__modal-label">Therapy Type:</span>
+                    <span className="admin-dashboard__modal-value">{selectedParticipant.therapyType}</span>
+                  </div>
+                  <div className="admin-dashboard__modal-row">
+                    <span className="admin-dashboard__modal-label">Eligibility:</span>
+                    <span className={`admin-dashboard__eligibility-badge admin-dashboard__eligibility-badge--${selectedParticipant.eligibility === 'Eligible' ? 'eligible' : 'review'}`}>
+                      {selectedParticipant.eligibility === 'Eligible' ? <FaCheck /> : <FaExclamationTriangle />}
+                      <span>{selectedParticipant.eligibility}</span>
+                    </span>
+                  </div>
+                  <div className="admin-dashboard__modal-row">
+                    <span className="admin-dashboard__modal-label">Email Status:</span>
+                    <span className={`admin-dashboard__email-badge admin-dashboard__email-badge--${selectedParticipant.emailSent ? 'sent' : 'not-sent'}`}>
+                      {selectedParticipant.emailSent ? <FaCheck /> : <FaCircle />}
+                      <span>{selectedParticipant.emailSent ? 'Sent' : 'Not Sent'}</span>
+                    </span>
+                  </div>
+                  <div className="admin-dashboard__modal-row">
+                    <span className="admin-dashboard__modal-label">Submitted:</span>
+                    <span className="admin-dashboard__modal-value">{formatDate(selectedParticipant.createdAt)}</span>
+                  </div>
+                  {selectedParticipant.healthInfo && (
+                    <div className="admin-dashboard__modal-row admin-dashboard__modal-row--full">
+                      <span className="admin-dashboard__modal-label">Health Information:</span>
+                      <span className="admin-dashboard__modal-value">{selectedParticipant.healthInfo}</span>
+                    </div>
+                  )}
+                  {selectedParticipant.medicalConditions && (
+                    <div className="admin-dashboard__modal-row admin-dashboard__modal-row--full">
+                      <span className="admin-dashboard__modal-label">Medical Conditions:</span>
+                      <span className="admin-dashboard__modal-value">{selectedParticipant.medicalConditions}</span>
+                    </div>
+                  )}
                 </div>
-                <p className="admin-dashboard__modal-placeholder-text">
-                  Detailed view functionality would be implemented here to show complete participant information, health details, and interaction history.
-                </p>
-              </div>
+              )}
             </div>
             <div className="admin-dashboard__modal-footer">
               <button className="admin-dashboard__modal-close-btn" onClick={closeModal}>
